@@ -1,3 +1,5 @@
+#%%
+
 import numpy as np
 import pydicom
 import os
@@ -14,6 +16,8 @@ from plotly import __version__
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot
 from plotly.tools import FigureFactory as FF
 from plotly.graph_objs import *
+
+import imageio
 
 
 #
@@ -203,10 +207,16 @@ def make_lungmask(img, display=False):
         plt.show()
     return mask * img, mask
 
-data_path = "/Volumes/My Passport/DICOM Image Folder/Lung CT Scans/NSCLC-Radiomics/LUNG1-013/05-25-2006-StudyID-50081/0-16008"
+#data_path = "/Volumes/My Passport/DICOM Image Folder/Lung CT Scans/NSCLC-Radiomics/LUNG1-013/05-25-2006-StudyID-50081/0-16008"
+data_path = "C:/Users/sonbu/OneDrive/SonBUG/Dev/COPD_test/2571726 2/ex"
+
+#sonbug=C:/Users/sonbu/OneDrive/SonBUG/Dev/COPD_test/2571726 2/ex
 #id2=/Volumes/My Passport/DICOM Image Folder/Lung CT Scans/NSCLC-Radiomics/LUNG1-013/05-25-2006-StudyID-50081/0-16008
 #id3=/Volumes/My Passport/DICOM Image Folder/Lung CT Scans/NSCLC-Radiomics/LUNG1-014/01-01-2014-StudyID-06346/1-30199
-output_path = working_path = "/Users/paulmccabe/Desktop"
+
+#output_path = working_path = "/Users/paulmccabe/Desktop"
+output_path = working_path = "C:/Users/sonbu/Desktop/temp/airway_output"
+
 g = glob(data_path + '/*.dcm')
 # Print out the first 5 file names to verify we're in the right folder.
 #print ("Total of %d DICOM images.\nFirst 5 filenames:" % len(g))
@@ -265,9 +275,34 @@ for img in imgs_after_resamp:
     just_mask.append(mask)
 #for i in range(0, 200, 1):
     #print("Data Value: {}".format(masked_lung[15][200][i]))
+
+#%%    
+#imageio.imwrite(output_path + '/jpg images/maskedimage000.jpg', masked_lung[0])
+
+#%%    
+#scipy.misc.toimage(masked_lung[0]).save('/jpg images/maskedimage000_.jpg')
+
+
+#%%    
+import matplotlib.image
+import matplotlib.cm as cm
+matplotlib.image.imsave(output_path + '/jpg images/maskedimage000__.jpg', masked_lung[0], cmap=cm.Greys_r)
+
+
+
+#%%    
+import cv2 as cv
+#cv.imwrite(output_path + '/jpg images/maskedimage000.jpg', masked_lung[0])
+
+
+
+#%%
 print("Saving as JPG Files...")
 for i in range(0, len(masked_lung), 1):
-    scipy.misc.imsave(output_path + '/jpg images/maskedimage{}.jpg'.format(i), masked_lung[i])
+    #scipy.misc.imsave(output_path + '/jpg images/maskedimage{}.jpg'.format(i), masked_lung[i])
+    #imageio.imwrite(output_path + '/jpg images/maskedimage{}.jpg'.format(i), masked_lung[i])
+    #cv.imwrite(output_path + '/jpg images/maskedimage{}.jpg'.format(i), masked_lung[i])
+    matplotlib.image.imsave(output_path + '/jpg images/maskedimage{}.jpg'.format(i), masked_lung[i], cmap=cm.Greys_r)
 print("Saving Mask")
 np.save(output_path + "/Segmentation Project/justmask_%d.npy" % (id), just_mask)
 print(just_mask[150].shape)
@@ -291,3 +326,4 @@ np.save(output_path + "/justmask_%d.npy" % (id), just_mask)
 #plotly_3d(v, f)
 
 """""
+# %%

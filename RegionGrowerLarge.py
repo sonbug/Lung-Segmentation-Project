@@ -329,15 +329,20 @@ img1 = []
 counter = 0
 datapath = "jpg_images/"
 #img0 = Image.open("jpg_images/maskedimage" + str(0) + ".jpg")
-for f in glob.glob('/Users/paulmccabe/Desktop/jpg images id0/*.jpg'):
-    path = "/Users/paulmccabe/Desktop/jpg images id0/maskedimage" + str(counter) + ".jpg"
+#C:\Users\sonbu\Desktop\temp\airway_output\jpg images
+working_path = "C:/Users/sonbu/Desktop/temp/airway_output"
+#for f in glob.glob('/Users/paulmccabe/Desktop/jpg images id0/*.jpg'):
+for f in glob.glob(working_path+ '/jpg images/*.jpg'):
+    #path = "/Users/paulmccabe/Desktop/jpg images id0/maskedimage" + str(counter) + ".jpg"
+    path = working_path + "/jpg images/maskedimage" + str(counter) + ".jpg"
     img0 = Image.open(path).convert('L')
     img1.append(array(img0))
     counter += 1
 print("Counter: " + str(counter))
 imgs_to_process = np.stack([s for s in img1])
 print(imgs_to_process.shape)
-np.save("/Users/paulmccabe/Desktop" + "/Segmentation Project/nplungs_%d.npy" % (id), imgs_to_process)
+#np.save("/Users/paulmccabe/Desktop" + "/Segmentation Project/nplungs_%d.npy" % (id), imgs_to_process)
+np.save(working_path + "/Segmentation Project/nplungs_%d.npy" % (id), imgs_to_process)
 
 #imgs_to_process = cv2.GaussianBlur(imgs_to_process1)
 
@@ -375,7 +380,8 @@ else:
 if(Test):
     pass
 else:
-    output_path = "/Users/paulmccabe/Desktop"
+    #output_path = "/Users/paulmccabe/Desktop"
+    output_path = working_path
     np.save(output_path + "/trachea_to_model_%d.npy" % (id), imgs_after_rg)
 if(Test):
     plot_pixel_count(imgs_after_rg, 4)
